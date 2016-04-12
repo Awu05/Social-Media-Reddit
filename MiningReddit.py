@@ -1,7 +1,7 @@
 import praw
 import webbrowser
 
-
+'''
 r = praw.Reddit(user_agent="test")
 
 #subredditList = r.get_popular_subreddits(limit=20)
@@ -10,27 +10,41 @@ while(i < 100):
     subredditList = r.get_random_subreddit()
     print subredditList
     i += 1
+'''
 
 '''
 for subreddit in subredditList:
     print subreddit
 '''
 
+
+#Get information about a specific user, it currently shows the karma in which
+#they got from
+
+user_agent = "Testing PRAW API /u/MiningReddit"
+r = praw.Reddit(user_agent=user_agent)
+
 '''
-r = praw.Reddit('CIS 400: Social Media Mining Experiment')
-r.set_oauth_app_info(client_id='7jP2S9cmElab6g',
-                     client_secret='NA0QS5UlRNHDQsbgVXhYrwYIWTQ',
-                     redirect_uri='http://127.0.0.1:65010/authorize_callback')
-
-
-url = r.get_authorize_url('uniqueKey', 'identity', True)
-webbrowser.open(url)
-
-
-access_information = r.get_access_information('g21Px-zMUk1J0wX6UwddkVjpWS4')
+#Get top stories from front page of reddit
+#Idk why I found this
+for submission in r.get_front_page(limit=10):
+    print submission.title
 '''
 
 
-#https://www.reddit.com/api/v1/authorize/?state=uniqueKey&redirect_uri=http%3A%2F%2F127.0.0.1%3A65010%2Fauthorize_callback&response_type=code&client_id=7jP2S9cmElab6g&duration=permanent&scope=identity
 
-#http://127.0.0.1:65010/authorize_callback?state=uniqueKey&code=g21Px-zMUk1J0wX6UwddkVjpWS4
+'''
+#Gets the amount of karma from the specific subreddit they got it from
+user_name = "AteMyWheaties" #Random User
+user = r.get_redditor(user_name)
+
+thing_limit = 10
+gen = user.get_submitted(limit=thing_limit)
+karma_by_subreddit = {}
+for thing in gen:
+    subreddit = thing.subreddit.display_name
+    karma_by_subreddit[subreddit] = (karma_by_subreddit.get(subreddit, 0)
+                                     + thing.score)
+import pprint
+pprint.pprint(karma_by_subreddit)
+'''
