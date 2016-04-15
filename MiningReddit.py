@@ -98,3 +98,19 @@ for link in submissions:
 
 '''
 
+#subredditList = r.get_popular_subreddits(limit=20)
+i = 0
+while(i < 10):
+    subredditList = r.get_random_subreddit()
+    print subredditList
+    testing = r.get_subreddit(subredditList).get_top(limit=None)
+    print testing.display_name
+    
+    
+    i += 1
+    
+    
+
+
+
+
