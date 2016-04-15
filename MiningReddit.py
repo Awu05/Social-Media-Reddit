@@ -3,9 +3,10 @@ import webbrowser
 
 
 
+'''
 r = praw.Reddit(user_agent="test")
 
-'''
+
 #subredditList = r.get_popular_subreddits(limit=20)
 i = 0
 while(i < 100):
@@ -20,6 +21,13 @@ for subreddit in subredditList:
 '''
 
 
+#Get list of users recent comments
+'''
+user = r.get_redditor('kayjay25')
+for comment in user.get_comments(limit=10):
+    print comment.body
+'''
+
 #Get information about a specific user, it currently shows the karma in which
 #they got from
 
@@ -27,6 +35,8 @@ user_agent = "Testing PRAW API /u/MiningReddit"
 r = praw.Reddit(user_agent=user_agent)
 
 
+
+'''
 #Get top stories from front page of reddit
 #Idk why I found this
 for submission in r.get_front_page(limit=10):
@@ -55,8 +65,8 @@ for submission in r.get_front_page(limit=10):
         
     import pprint
     #pprint.pprint(karma_by_subreddit)
-
-       
+'''
+      
 
 
 
