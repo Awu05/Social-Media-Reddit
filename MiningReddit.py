@@ -36,7 +36,7 @@ r = praw.Reddit(user_agent=user_agent)
 
 
 
-'''
+
 #Get top stories from front page of reddit
 #Idk why I found this
 for submission in r.get_front_page(limit=10):
@@ -44,28 +44,47 @@ for submission in r.get_front_page(limit=10):
     print "Username of author: ", submission.author
     user_name = submission.author
     user = r.get_redditor(user_name)
-    try:
-        thing_limit = 10
-        gen = user.get_submitted(limit=thing_limit)
-        karma_by_subreddit = {}
+    #try:
+    thing_limit = 10
+    gen = user.get_submitted(limit=thing_limit)
+    karma_by_subreddit = {}
+
+    for thing in gen:
+        subreddit = thing.subreddit.display_name
+        karma_by_subreddit[subreddit] = (karma_by_subreddit.get(subreddit, 0)
+                                         + thing.score)
+    for key, value in sorted(karma_by_subreddit.iteritems(), key=lambda (k,v): (v,k)):
+        print "%s: %s" % (key, value)
+    print "\n"
+    print user_name, "subreddit with most karma from submissions: r/", key, "\n"
+    #print r.get_subreddit_recommendations(key, omit=None), "\n"
+    recom = str(r.get_subreddit_recommendations(key, omit=None))
+    recomlen = len(r.get_subreddit_recommendations(key, omit=None))
+    hold = ""
+    for i in recom:
+        hold = hold + i
+    #print hold , "\n"
+
+    z = 0
+    #print recomlen
+    print "Recommended Subreddits:\n"
+    while z < recomlen * 2:
+        z += 1
+        recom2 = hold.split("'")[z]
+        print recom2
+        z += 1
+        
     
-        for thing in gen:
-            subreddit = thing.subreddit.display_name
-            karma_by_subreddit[subreddit] = (karma_by_subreddit.get(subreddit, 0)
-                                             + thing.score)
-        for key, value in sorted(karma_by_subreddit.iteritems(), key=lambda (k,v): (v,k)):
-            print "%s: %s" % (key, value)
-        print "\n"
-        print user_name, "subreddit with most karma from submissions: r/", key, "\n"
-        print r.get_subreddit_recommendations(key, omit=None), "\n"
-        print "------------------------------------------------------ \n"
+    print "------------------------------------------------------ \n"
         
-    except Exception:
-        print "User's Profile is private.  Cannot access data \n \n"
-        
+    #except Exception:
+        #print "User's Profile is private.  Cannot access data \n \n"
+
+
+      
     import pprint
     #pprint.pprint(karma_by_subreddit)
-'''
+
       
 
 
@@ -98,7 +117,8 @@ for link in submissions:
 
 '''
 
-#subredditList = r.get_popular_subreddits(limit=20)
+'''
+#Get random subreddits and their top 10 posts
 i = 0
 while(i < 10):
     subredditList = r.get_random_subreddit()
@@ -111,6 +131,7 @@ while(i < 10):
     
     i += 1
     
+'''
     
 
 
