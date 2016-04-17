@@ -102,10 +102,12 @@ for link in submissions:
 i = 0
 while(i < 10):
     subredditList = r.get_random_subreddit()
-    print subredditList
-    testing = r.get_subreddit(subredditList).get_top(limit=None)
-    print testing.display_name
-    
+    print "Getting top 10 from subreddit:", subredditList
+
+    testing = r.get_subreddit(str(subredditList)).get_top(limit=10)
+    for x in testing:
+        print x
+    print "\n"
     
     i += 1
     
