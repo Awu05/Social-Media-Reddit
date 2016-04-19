@@ -26,6 +26,7 @@ while start == end:
 while current != end:
     print "Your CURRENT Subreddit is:", current
     print "Your ENDING Subreddit is:", end, "\n"
+    print 'Hint: You can type "Repick" to change your \ncurrent subreddit if you are stuck or if \nno available subreddits are shown.\n'
     
     recom = str(r.get_subreddit_recommendations(current, omit=None))
     recomlen = len(r.get_subreddit_recommendations(current, omit=None))
@@ -34,10 +35,8 @@ while current != end:
     #If the recommended subreddit list has less than 2, repick starting position
     if(recomlen < 4):
         print "Repicking current subreddit due to lack of choices.\n"
-        while (recomlen < 2):
-            start = str(r.get_random_subreddit())
-            recom = str(r.get_subreddit_recommendations(current, omit=None))
-            recomlen = len(r.get_subreddit_recommendations(current, omit=None))
+        start = str(r.get_random_subreddit())
+        recom = str(r.get_subreddit_recommendations(current, omit=None))
         recomlen = len(r.get_subreddit_recommendations(current, omit=None))
         while start == end:
             end = str(r.get_random_subreddit())
@@ -45,12 +44,9 @@ while current != end:
         current = start
         print "Your NEW CURRENT Subreddit is:", current, "\n"
 
-    if(recomlen2 < 2):
+    if(recomlen2 < 4):
         print "Repicking ENDING subreddit due to lack of choices.\n"
-        while recomlen2 < 4:
-            end = str(r.get_random_subreddit())
-            recomlen2 = len(r.get_subreddit_recommendations(end, omit=None))
-            
+        end = str(r.get_random_subreddit())
         while start == end:
             end = str(r.get_random_subreddit())
 
@@ -72,6 +68,10 @@ while current != end:
         z += 1
 
     choice = raw_input("Please Choose a Subreddit: ")
+    if(choice == "repick"):
+        print "Repicking CURRENT subreddit.\n"
+        current = str(r.get_random_subreddit())
+        choice = current
     current = choice
     path.append(choice)
     numtimes += 1
