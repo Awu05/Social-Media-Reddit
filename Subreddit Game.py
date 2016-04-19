@@ -32,10 +32,12 @@ while current != end:
     recomlen2 = len(r.get_subreddit_recommendations(end, omit=None))
 
     #If the recommended subreddit list has less than 2, repick starting position
-    if(recomlen < 2):
+    if(recomlen < 4):
         print "Repicking current subreddit due to lack of choices.\n"
-        start = str(r.get_random_subreddit())
-        recom = str(r.get_subreddit_recommendations(current, omit=None))
+        while (recomlen < 2):
+            start = str(r.get_random_subreddit())
+            recom = str(r.get_subreddit_recommendations(current, omit=None))
+            recomlen = len(r.get_subreddit_recommendations(current, omit=None))
         recomlen = len(r.get_subreddit_recommendations(current, omit=None))
         while start == end:
             end = str(r.get_random_subreddit())
@@ -45,7 +47,10 @@ while current != end:
 
     if(recomlen2 < 2):
         print "Repicking ENDING subreddit due to lack of choices.\n"
-        end = str(r.get_random_subreddit())
+        while recomlen2 < 4:
+            end = str(r.get_random_subreddit())
+            recomlen2 = len(r.get_subreddit_recommendations(end, omit=None))
+            
         while start == end:
             end = str(r.get_random_subreddit())
 
