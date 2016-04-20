@@ -1,28 +1,41 @@
 '''
 
 Final Project: Your Reddit Fix
-Authors: Andy Wu and Steven Lykte
+Authors: Andy Wu and Steven Lyktey
 
 '''
 
 class Reddit:
 
     def get_front(self):
-        #Get top stories from front page of reddit
+
+        '''
+        This function gets the top 10 posts on Reddit's front page and
+        gives us information about the user that posted these popular posts.
+
+        We take the username of the original poster and return a list of the
+        subreddits that they have posted on and we sort the list based off their
+        Karma score in each subreddit.  From there, we take the subreddit with
+        the most Karma score and we recommend subreddits for the user to follow.
+        '''
         import praw
         user_agent = "Testing PRAW API /u/MiningReddit"
         r = praw.Reddit(user_agent=user_agent)
+        #This loop gets us the top 10 posts
         for submission in r.get_front_page(limit=10):
             print submission.title
             print "Username of author: ", submission.author
             user_name = submission.author
+            #Gets the username of the redditor
             user = r.get_redditor(user_name)
 
+            #This try and catch checks if the User's profile is private
             try:
                 thing_limit = 10
                 gen = user.get_submitted(limit=thing_limit)
                 karma_by_subreddit = {}
 
+                #Populates the subreddit submissions list
                 for thing in gen:
                     subreddit = thing.subreddit.display_name
                     karma_by_subreddit[subreddit] = (karma_by_subreddit.get(subreddit, 0)
@@ -31,16 +44,13 @@ class Reddit:
                     print "%s: %s" % (key, value)
                 print "\n"
                 print user_name, "subreddit with most karma from submissions: r/", key, "\n"
-                #print r.get_subreddit_recommendations(key, omit=None), "\n"
                 recom = str(r.get_subreddit_recommendations(key, omit=None))
                 recomlen = len(r.get_subreddit_recommendations(key, omit=None))
                 hold = ""
                 for i in recom:
                     hold = hold + i
-                #print hold , "\n"
 
                 z = 0
-                #print recomlen
                 print "Recommended Subreddits:\n"
                 while z < recomlen * 2:
                     z += 1
@@ -60,7 +70,11 @@ class Reddit:
         import praw
         user_agent = "Testing PRAW API /u/MiningReddit"
         r = praw.Reddit(user_agent=user_agent)
-        
+
+        '''
+        This function prints out a list of submissions that a specific user
+        has submitted to reddit, regardless of the subreddit
+        '''
         user = r.get_redditor(reddit_user)
         submissions = user.get_submitted()
 
@@ -88,10 +102,14 @@ class Reddit:
             
             i += 1
 
+    #Imports the Subreddit Game which is saved to a different file
     def game (self):
         import Subreddit_Game
 
 
+    '''
+    This will handle all of the user interaction on the "Home Screen"
+    '''
     def main2(self):
         while 1:
             print "------ Welcome To Your Reddit Fix ------"
