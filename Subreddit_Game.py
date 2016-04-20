@@ -35,19 +35,19 @@ class subredditGame:
             recomlen = len(r.get_subreddit_recommendations(current, omit=None))
             recomlen2 = len(r.get_subreddit_recommendations(end, omit=None))
 
-            #If the recommended subreddit list has less than 2, repick starting position
-            if(recomlen < 4):
+            #If the recommended subreddit list has less than 1, repick starting position
+            if(recomlen < 2):
                 print "Repicking current subreddit due to lack of choices.\n"
-                start = str(r.get_random_subreddit())
+                current = str(r.get_random_subreddit())
                 recom = str(r.get_subreddit_recommendations(current, omit=None))
                 recomlen = len(r.get_subreddit_recommendations(current, omit=None))
                 while start == end:
-                    end = str(r.get_random_subreddit())
+                    current = str(r.get_random_subreddit())
                     
-                current = start
+                #current = start
                 print "Your NEW CURRENT Subreddit is:", current, "\n"
 
-            if(recomlen2 < 4):
+            if(recomlen2 < 2):
                 print "Repicking ENDING subreddit due to lack of choices.\n"
                 end = str(r.get_random_subreddit())
                 while start == end:
@@ -71,14 +71,14 @@ class subredditGame:
                 z += 1
 
             choice = raw_input("Please Choose a Subreddit: ")
-            if(choice == "repick"):
+            if(choice.lower() == "repick"):
                 print "Repicking CURRENT subreddit.\n"
                 current = str(r.get_random_subreddit())
                 choice = current
             current = choice
             path.append(choice)
             numtimes += 1
-            if current == end:
+            if current.lower() == end.lower():
                 break
 
             print "----------------------------------------------------------\n\n"
