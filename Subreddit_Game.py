@@ -48,7 +48,7 @@ class subredditGame:
                 
                 print "Your NEW CURRENT Subreddit is:", current, "\n"
                 print "Your ENDING Subreddit is:", end, "\n"
-
+            #If the ending recommended subreddit list has less than 2, repick ending position
             if(recomlen2 < 4):
                 print "Repicking ENDING subreddit due to lack of choices.\n"
                 end = str(r.get_random_subreddit())
@@ -60,7 +60,8 @@ class subredditGame:
                 print "Your NEW ENDING Subreddit is:", end, "\n"
 
             print "Your Choices of Subreddits To Pick Are:\n"
-                
+
+            #Print out the list of related subreddits
             hold = ""
             for i in recom:
                 hold = hold + i
@@ -74,6 +75,7 @@ class subredditGame:
                 z += 1
 
             choice = raw_input("Please Choose a Subreddit: ")
+            #Repick subreddit
             if(choice.lower() == "repick"):
                 print "Repicking CURRENT subreddit.\n"
                 current = str(r.get_random_subreddit())
@@ -82,7 +84,8 @@ class subredditGame:
                 current = choice
                 path.append(choice)
                 numtimes += 1
-
+                
+            #Prints out related subreddits to the ending subreddit
             elif(choice.lower() == "hint"):
                 print "\nSubreddits related to", end, "are: "
                 endrecom = str(r.get_subreddit_recommendations(end, omit=None))
